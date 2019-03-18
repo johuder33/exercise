@@ -1,19 +1,23 @@
-import React, {Component} from 'react';
+import React, { useState } from "react";
+import MaterialButton from "@material-ui/core/Button";
+import CircularProgress from "@material-ui/core/CircularProgress";
 
-const styles = {
-  button: {
-    width:   100,
-    margin:  8,
-    padding: 8
-  }
+const getRendomTs = (limitTs = 3000) => Math.floor(Math.random() * limitTs);
+
+export const Button = ({ color, onLoad, children }) => {
+  const [logging, setLogging] = useState(false);
+
+  return (
+    <MaterialButton
+      color={color}
+      variant={"contained"}
+      onClick={() => {
+        setLogging(true);
+        setTimeout(() => onLoad && onLoad(), getRendomTs());
+      }}
+    >
+      {logging && <CircularProgress size={20} />}
+      {children}
+    </MaterialButton>
+  );
 };
-export default class Button extends Component {
-  render() {
-    return (
-      <button style={{...styles.button, ...this.props.style}}>
-        {this.props.children}
-      </button>
-    );
-  }
-}
-
